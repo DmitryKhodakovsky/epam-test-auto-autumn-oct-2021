@@ -13,8 +13,18 @@
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+    <testng.configs.path>${project.build.testOutputDirectory}/com/epam/training/center/lesson04/</testng.configs.path>
+    <testng.suite.file>${testng.configs.path}/lesson4.class.suite.xml</testng.suite.file>
+
     <checkstyle.version>8.42</checkstyle.version>
     <testng.version>7.4.0</testng.version>
+
+    <lombok.version>1.18.20</lombok.version>
+
+    <aspectj.version>1.9.5</aspectj.version>
+    <selenium.version>3.141.59</selenium.version>
+
+    <allure.version>2.14.0</allure.version>
 
     <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
   </properties>
@@ -38,14 +48,33 @@
         <suite.xml.name>${project.basedir}/src/test/resources/com/epam/training/center/lesson01/SubtractCalculatorTestSuite.xml</suite.xml.name>
       </properties>
     </profile>
+    <profile>
+      <id>lesson04</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <suite.xml.name>${project.basedir}/src/test/resources/com/epam/training/center/lesson04/lesson4.class.suite.xml</suite.xml.name>
+      </properties>
+    </profile>
   </profiles>
 
   <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>${testng.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-testng</artifactId>
+      <version>${allure.version}</version>
     </dependency>
   </dependencies>
 
@@ -64,7 +93,6 @@
         </dependencies>
         <configuration>
           <configLocation>
-            <!--  pay attention to use exact url for checkstyle plugin ruleset  -->
             https://raw.githubusercontent.com/DmitryKhodakovsky/epam-training-center-code-checkers-configurations/main/checkstyle/checkstyle.xml
           </configLocation>
           <encoding>${project.build.sourceEncoding}</encoding>
@@ -89,12 +117,38 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M5</version>
         <configuration>
+          <argLine>
+            --illegal-access=permit
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+          </argLine>
           <suiteXmlFiles>
-            <suiteXmlFile>${suite.xml.name}</suiteXmlFile>
+            <suiteXmlFile>${testng.suite.file}</suiteXmlFile>
           </suiteXmlFiles>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <excludeDefaults>true</excludeDefaults>
+    <plugins>
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+        <version>2.10.0</version>
+        <configuration>
+          <reportVersion>${allure.version}</reportVersion>
+        </configuration>
+
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>
