@@ -11,12 +11,22 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import lombok.SneakyThrows;
+import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class MoreSteps {
 
     public static final String CAT_URL =
             "https://upload.wikimedia.org/wikipedia/commons/b/b6/Felis_catus-cat_on_snow.jpg";
+
+    @BeforeClass
+    public void beforeClass(ITestContext context) {
+        WebDriver driver = null;
+        context.setAttribute("driver", driver);
+    }
 
     @Test
     public void testLoginWithNormalUser() {

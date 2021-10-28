@@ -76,6 +76,12 @@
       <artifactId>allure-testng</artifactId>
       <version>${allure.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>4.0.0-beta-4</version>
+    </dependency>
+
   </dependencies>
 
   <build>
