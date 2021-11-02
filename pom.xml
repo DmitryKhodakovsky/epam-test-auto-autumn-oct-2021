@@ -75,6 +75,15 @@
         <suite.xml.name>${project.basedir}/src/test/resources/com/epam/training/center/lesson05/lesson5.cucumber.suite.xml</suite.xml.name>
       </properties>
     </profile>
+    <profile>
+      <id>lesson06-selenium-grid</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <suite.xml.name>${project.basedir}/src/test/resources/com/epam/training/center/lesson06/lesson06.selenium.grid.suite.xml</suite.xml.name>
+      </properties>
+    </profile>
   </profiles>
 
   <dependencies>
